@@ -1,0 +1,11 @@
+name: MagicBattle
+main: me.pogostick29dev.magicbattle.MagicBattle
+version: 1.0
+author: PogoStick29
+description: A magical minigame!
+
+commands:
+    magicbattle:
+        usage: /<command> <args> [opt args]
+        aliases: [mb]
+        description: MagicBattle command!
