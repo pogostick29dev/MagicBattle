@@ -30,8 +30,8 @@ public enum Wand {
 			for (Entity en : e.getPlayer().getNearbyEntities(10, 10, 10)) {
 				if (en instanceof Player) {
 					((Player) en).addPotionEffect(new PotionEffect(PotionEffectType.POISON, 20 * 5, 1));
-					MessageManager.getInstance().msg((Player) en, MessageType.INFO, ChatColor.DARK_PURPLE + "You have been poinsoned by " + e.getPlayer().getName() + "!");
-					MessageManager.getInstance().msg(e.getPlayer(), MessageType.INFO, ChatColor.DARK_PURPLE + "You have poinsoned " + ((Player) en).getName() + "!");
+					MessageManager.getInstance().msg((Player) en, MessageType.INFO, ChatColor.DARK_PURPLE + "You have been poisoned by " + e.getPlayer().getName() + "!");
+					MessageManager.getInstance().msg(e.getPlayer(), MessageType.INFO, ChatColor.DARK_PURPLE + "You have poisoned " + ((Player) en).getName() + "!");
 				}
 			}
 		}
