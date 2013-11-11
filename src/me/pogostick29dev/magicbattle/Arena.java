@@ -88,7 +88,9 @@ public class Arena {
 		
 		if (currentPlayers == 1) {
 			stop(data.get(0).getPlayer());
-		}
+		} else if (currentPlayers == 0) {
+            stop();
+        }
 	}
 	
 	public void start() {
@@ -118,7 +120,17 @@ public class Arena {
 		if (winner != null) MessageManager.getInstance().broadcast(MessageType.GOOD, winner.getName() + " has won arena " + id + "!");
 		
 		for (PlayerData pd : data) pd.restorePlayer();
+
+        this.state = ArenaState.WAITING;
 	}
+
+    public void stop() {
+        MessageManager.getInstance().broadcast(MessageType.GOOD, "The arena " + id + " has ended!");
+
+        for (PlayerData pd : data) pd.restorePlayer();
+
+        this.state = ArenaState.WAITING;
+    }
 	
 	public boolean containsPlayer(Player p) {
 		return getPlayerData(p) != null;
