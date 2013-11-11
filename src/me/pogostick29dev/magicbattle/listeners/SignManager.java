@@ -80,7 +80,9 @@ public class SignManager implements Listener {
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
 		if (!(e.getAction() == Action.RIGHT_CLICK_AIR) && !(e.getAction() == Action.RIGHT_CLICK_BLOCK)) return;
-		
+
+        if (e.getClickedBlock() == null || e.getClickedBlock().getState() == null) return;
+
 		if (e.getClickedBlock().getState() instanceof Sign) {
 			Sign s = (Sign) e.getClickedBlock().getState();
 			if (s.getLine(0).equalsIgnoreCase("[MagicBattle]")) {
