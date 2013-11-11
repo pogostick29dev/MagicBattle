@@ -37,9 +37,11 @@ public class Delete extends MagicCommand {
 			return;
 		}
 		
-		SettingsManager.getArenas().set(id + "", null);
+		SettingsManager.getArenas().set("arenas." + id + "", null);
 		
 		ArenaManager.getInstance().setupArenas();
+
+        MessageManager.getInstance().msg(p, MessageType.GOOD, "Deleted arena " + id + "!");
 	}
 	
 	public Delete() {
