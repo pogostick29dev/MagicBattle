@@ -19,6 +19,8 @@ public class ArenaManager {
 	
 	public void setupArenas() {
 		if (SettingsManager.getArenas().<ConfigurationSection>get("arenas") == null) SettingsManager.getArenas().createConfigurationSection("arenas");
+
+        arenas.clear();
 		
 		for (String key : SettingsManager.getArenas().<ConfigurationSection>get("arenas").getKeys(false)) {
 			arenas.add(new Arena(Integer.parseInt(key)));

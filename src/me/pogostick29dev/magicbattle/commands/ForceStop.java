@@ -36,7 +36,7 @@ public class ForceStop extends MagicCommand {
 			return;
 		}
 		
-		a.stop(null);
+		a.stop();
 		MessageManager.getInstance().msg(p, MessageType.GOOD, "Force stopped arena " + a.getID() + "!");
 	}
 	
