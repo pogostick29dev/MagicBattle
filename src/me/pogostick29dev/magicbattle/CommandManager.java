@@ -24,7 +24,7 @@ public class CommandManager implements CommandExecutor {
 
 	private ArrayList<MagicCommand> cmds = new ArrayList<MagicCommand>();
 	
-	public void setup() {
+	public CommandManager() {
 		cmds.add(new Create());
 		cmds.add(new Delete());
 		cmds.add(new ForceStart());

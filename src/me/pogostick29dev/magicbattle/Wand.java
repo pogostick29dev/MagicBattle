@@ -21,7 +21,7 @@ public enum Wand {
 		public void run(PlayerInteractEvent e) {
 			Fireball fb = e.getPlayer().launchProjectile(Fireball.class);
 			fb.setIsIncendiary(false);
-			//fb.setYield(0F);
+			fb.setYield(0F);
 		}
 	}),
 	

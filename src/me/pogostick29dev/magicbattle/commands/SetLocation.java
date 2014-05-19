@@ -18,13 +18,14 @@ public class SetLocation extends MagicCommand {
 		
 		int id = -1;
 		
-		try { id = Integer.parseInt(args[0]); }
-		catch (Exception e) {
+		try {
+			id = Integer.parseInt(args[0]);
+		} catch (Exception e) {
 			MessageManager.getInstance().msg(p, MessageType.BAD, args[0] + " is not a valid number!");
 			return;
 		}
 		
-		if (SettingsManager.getArenas().<ConfigurationSection>get("arenas." + id) == null) {
+		if (!SettingsManager.getArenas().contains("arenas." + id)) {
 			MessageManager.getInstance().msg(p, MessageType.BAD, "There is no arena with ID " + id + "!");
 			return;
 		}

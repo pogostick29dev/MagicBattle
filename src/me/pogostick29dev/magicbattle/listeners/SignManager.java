@@ -25,7 +25,9 @@ public class SignManager implements Listener {
 	
 	public SignManager() {
 		
-		if (SettingsManager.getLobbySigns().<ConfigurationSection>get("signs") == null) SettingsManager.getLobbySigns().createConfigurationSection("signs");
+		if (!SettingsManager.getLobbySigns().contains("signs")) {
+			SettingsManager.getLobbySigns().createConfigurationSection("signs");
+		}
 		
 		for (String str : SettingsManager.getLobbySigns().<ConfigurationSection>get("signs").getKeys(true)) {
 			ConfigurationSection section = SettingsManager.getLobbySigns().get("signs." + str);

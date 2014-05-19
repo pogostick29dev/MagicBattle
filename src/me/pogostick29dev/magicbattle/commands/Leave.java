@@ -13,7 +13,7 @@ public class Leave extends MagicCommand {
 			MessageManager.getInstance().msg(p, MessageType.BAD, "You are not already in an arena!");
 			return;
 		}
-		
+
 		ArenaManager.getInstance().getArena(p).removePlayer(p);
 	}
 	

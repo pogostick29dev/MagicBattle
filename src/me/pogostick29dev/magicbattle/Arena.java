@@ -3,7 +3,6 @@ package me.pogostick29dev.magicbattle;
 import java.util.ArrayList;
 import java.util.Random;
 
-import me.pogostick29dev.magicbattle.Arena.ArenaState;
 import me.pogostick29dev.magicbattle.MessageManager.MessageType;
 import me.pogostick29dev.magicbattle.listeners.SignManager;
 
@@ -13,24 +12,27 @@ import org.bukkit.block.Sign;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Arena {
 	
 	public enum ArenaState { DISABLED, WAITING, COUNTING_DOWN, STARTED; }
 
-	private int id, taskID, numPlayers, currentPlayers = 0;
-	protected ArenaState state = ArenaState.DISABLED;
+	private int id, numPlayers, currentPlayers;
 	private ArrayList<PlayerData> data;
 	private ArrayList<Sign> signs;
 	private Location spawnPoint;
+	protected ArenaState state = ArenaState.DISABLED;
 	
 	protected Arena(int id) {
 		this.id = id;
 		this.data = new ArrayList<PlayerData>();
 		this.numPlayers = SettingsManager.getArenas().get("arenas." + id + ".numPlayers");
 		
-		ConfigurationSection s = SettingsManager.getArenas().get("arenas." + id + ".spawn");
-		spawnPoint = LocationUtil.locationFromConfig(s, true);
+		if (SettingsManager.getArenas().contains("arenas." + id + ".spawns")) {
+			ConfigurationSection s = SettingsManager.getArenas().get("arenas." + id + ".spawn");
+			spawnPoint = LocationUtil.locationFromConfig(s, true);
+		}
 		
 		state = ArenaState.WAITING;
 		
@@ -100,20 +102,19 @@ public class Arena {
 			s.update();
 		}
 		
-		final Countdown c = new Countdown(30, "Game starting in %t seconds!", this, 30, 20, 10, 5, 4, 3, 2, 1);
-		this.taskID = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(MagicBattle.getPlugin(), new Runnable() {
-			public void run() {
-				if (!c.isDone()) {
-					c.run();
-					state = ArenaState.STARTED;
-					for (Sign s : signs) {
-						s.setLine(3, getState().toString());
-						s.update();
-					}
-				}
-				else Bukkit.getServer().getScheduler().cancelTask(taskID);
-			}
-		}, 0, 20);
+		new Countdown(
+				30,
+				"Game starting in %t seconds!",
+				this,
+				30,
+				20,
+				10,
+				5,
+				4,
+				3,
+				2,
+				1
+		).runTaskTimer(MagicBattle.getPlugin(), 0, 20);
 	}
 	
 	public void stop(Player winner) {
@@ -146,6 +147,40 @@ public class Arena {
 	protected void sendMessage(MessageType type, String... messages) {
 		for (PlayerData d : data) MessageManager.getInstance().msg(d.getPlayer(), type, messages);
 	}
+	
+	private class Countdown extends BukkitRunnable {
+		
+		private int timer;
+		private String msg;
+		private Arena a;
+		private ArrayList<Integer> countingNums;
+		
+		public Countdown(int start, String msg, Arena a, int... countingNums) {
+			this.timer = start;
+			this.msg = msg;
+			this.a = a;
+			this.countingNums = new ArrayList<Integer>();
+			for (int i : countingNums) this.countingNums.add(i);
+		}
+		
+		public void run() {
+			if (timer == 0) {
+				for (PlayerData pd : data) {
+					pd.getPlayer().teleport(spawnPoint);
+				}
+				
+				MessageManager.getInstance().broadcast(MessageType.GOOD, "The game has started!");
+				a.state = ArenaState.STARTED;
+				cancel();
+			}
+			
+			if (countingNums.contains(timer)) {
+				MessageManager.getInstance().broadcast(MessageType.INFO, msg.replace("[time]", timer + ""));
+			}
+			
+			timer--;
+		}
+	}
 }
 
 class PlayerData {
@@ -175,41 +210,5 @@ class PlayerData {
 	
 	protected boolean isForPlayer(Player p) {
 		return playerName.equalsIgnoreCase(p.getName());
-	}
-}
-
-class Countdown implements Runnable {
-	
-	private boolean isDone = false;
-	private int timer;
-	private String msg;
-	private Arena a;
-	private ArrayList<Integer> countingNums;
-	
-	public Countdown(int start, String msg, Arena a, int... countingNums) {
-		this.timer = start;
-		this.msg = msg;
-		this.a = a;
-		this.countingNums = new ArrayList<Integer>();
-		for (int i : countingNums) this.countingNums.add(i);
-	}
-	
-	public void run() {
-		if (timer == 0) {
-			a.sendMessage(MessageType.GOOD, "The game has begun!");
-			a.state = ArenaState.STARTED;
-			isDone = true;
-			return;
-		}
-		
-		if (countingNums.contains(timer)) {
-			a.sendMessage(MessageType.INFO, msg.replaceAll("%t", timer + ""));
-		}
-		
-		timer--;
-	}
-	
-	public boolean isDone() {
-		return isDone;
 	}
 }

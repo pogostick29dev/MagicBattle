@@ -19,9 +19,7 @@ public class MagicBattle extends JavaPlugin {
 		
 		ArenaManager.getInstance().setupArenas();
 		
-		CommandManager cm = new CommandManager();
-		cm.setup();
-		getCommand("magicbattle").setExecutor(cm);
+		getCommand("magicbattle").setExecutor(new CommandManager());
 		
 		PluginManager pm = Bukkit.getServer().getPluginManager();
 		pm.registerEvents(new BlockBreak(), this);

@@ -19,8 +19,6 @@ public class SettingsManager {
 		return lobbySigns;
 	}
 	
-	/*****/
-	
 	private SettingsManager(String fileName) {
 		System.out.println(MagicBattle.getPlugin());
 		
@@ -29,8 +27,11 @@ public class SettingsManager {
 		file = new File(MagicBattle.getPlugin().getDataFolder(), fileName + ".yml");
 		
 		if (!file.exists()) {
-			try { file.createNewFile(); }
-			catch (Exception e) { e.printStackTrace(); }
+			try {
+				file.createNewFile();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		config = YamlConfiguration.loadConfiguration(file);
@@ -55,5 +56,9 @@ public class SettingsManager {
 	@SuppressWarnings("unchecked")
 	public <T> T get(String path) {
 		return (T) config.get(path);
+	}
+	
+	public boolean contains(String path) {
+		return config.contains(path);
 	}
 }
