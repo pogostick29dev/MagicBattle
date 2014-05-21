@@ -17,7 +17,9 @@ public class CommandPreProcess implements Listener {
     Arena a = ArenaManager.getInstance().getArena(e.getPlayer());
     Player p = null;
     if(a != null) {
-    	if(!e.getMessage().equalsIgnoreCase("/mg leave") || !e.getMessage().equalsIgnoreCase("/magicbattle leave")) {
+    	if(!e.getMessage().equalsIgnoreCase("/mg leave") 
+    	        || !e.getMessage().equalsIgnoreCase("/magicbattle leave")) {
+    	          
     	MessageManager.getInstance().msg(p, MessageType.BAD, "You cannot do that command! Please do /mg leave before doing any command!");
     	}
     }
