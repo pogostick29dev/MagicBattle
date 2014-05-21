@@ -1,1 +1,1 @@
-##### How To Contribute
+# How To Contribute
