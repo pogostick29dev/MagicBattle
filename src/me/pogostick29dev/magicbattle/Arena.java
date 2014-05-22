@@ -175,7 +175,7 @@ public class Arena {
 			}
 			
 			if (countingNums.contains(timer)) {
-				MessageManager.getInstance().broadcast(MessageType.INFO, msg.replace("[time]", timer + ""));
+				MessageManager.getInstance().broadcast(MessageType.INFO, msg.replace("%t", timer + ""));
 			}
 			
 			timer--;
