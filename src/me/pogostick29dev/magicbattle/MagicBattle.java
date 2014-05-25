@@ -6,6 +6,8 @@ import me.pogostick29dev.magicbattle.listeners.PlayerInteract;
 import me.pogostick29dev.magicbattle.listeners.PlayerLeave;
 import me.pogostick29dev.magicbattle.listeners.PlayerLoseHunger;
 import me.pogostick29dev.magicbattle.listeners.SignManager;
+import net.gravitydevelopment.updater.Updater;
+import net.gravitydevelopment.updater.Updater.UpdateType;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -27,6 +29,8 @@ public class MagicBattle extends JavaPlugin {
 		pm.registerEvents(new PlayerInteract(), this);
 		pm.registerEvents(new PlayerLeave(), this);
 		pm.registerEvents(new PlayerLoseHunger(), this);
+		
+		Updater updater = new Updater(this, 80029, getFile(), UpdateType.DEFAULT, true);
 	}
 	
 	public static Plugin getPlugin() {
