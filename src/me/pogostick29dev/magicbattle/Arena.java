@@ -185,6 +185,7 @@ public class Arena {
 
 class PlayerData {
 
+	private Player puu;
 	private String playerName;
 	private ItemStack[] contents, armorContents;
 	private Location location;
@@ -197,11 +198,11 @@ class PlayerData {
 	}
 	
 	protected Player getPlayer() {
-		return Bukkit.getServer().getPlayer(playerName);
+		return Bukkit.getServer().getPlayer(puu.getUniqueId());
 	}
 	
 	protected void restorePlayer() {
-		Player p = Bukkit.getServer().getPlayer(playerName);
+		Player p = Bukkit.getServer().getPlayer(puu.getUniqueId());
 		
 		p.getInventory().setContents(contents);
 		p.getInventory().setArmorContents(armorContents);
